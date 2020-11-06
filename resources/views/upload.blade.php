@@ -1,5 +1,6 @@
 @extends('layout')
 
 @section('main')
-hi
+<dropzone>
+</dropzone>
 @endsection

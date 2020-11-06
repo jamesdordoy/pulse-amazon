@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AssetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/upload', [
+    AssetController::class,
+    'showUpload'
+]);
+
+Route::post('/upload', [
+    AssetController::class,
+    'upload'
+]);
+
+Route::get('/download', [
+    AssetController::class,
+    'showDownload'
+]);
+
