@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Contracts\AssetServiceContract;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Http\Requests\UploadRequest;
@@ -9,12 +11,11 @@ use App\Http\Requests\UploadRequest;
 
 class AssetController extends Controller
 {
-    //
-    private $s3Client;
+    private $assetService;
 
-    public function __construct()
+    public function __construct(AssetServiceContract $assetService)
     {
-        $this->s3Client = \App::make('aws')->createClient('s3');
+        $this->assetService = $assetService;
     }
 
     public function showUpload()
@@ -26,27 +27,14 @@ class AssetController extends Controller
     {
         $file = $request->file;
 
-        try {
-            $response = $this->s3Client->putObject(array(
-                'Bucket'     => 'jd-pulse-test-bucket',
-                'Key'        => $file->getClientOriginalName(),
-                'SourceFile' => $file->path(),
-            ));
-        }
-        catch (Exception $e) {
-            return abort(400);
-        }
+        $response = $this->assetService->upload($file);
 
         return $response;
     }
 
     public function showDownload()
     {
-        $response = $this->s3Client->listObjects([
-            'Bucket' => 'jd-pulse-test-bucket',
-        ]);
-
-        $images = $response->toArray()["Contents"];
+        $images = $this->assetService->getFiles();
 
         return view('download', [
             'images' => $images
