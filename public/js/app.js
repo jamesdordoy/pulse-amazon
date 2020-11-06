@@ -1929,7 +1929,10 @@ __webpack_require__.r(__webpack_exports__);
       dropzoneOptions: {
         url: 'http://pulse-amazon.test/upload',
         thumbnailWidth: 150,
-        maxFilesize: 0.5
+        maxFilesize: 0.5,
+        headers: {
+          'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content
+        }
       }
     };
   }

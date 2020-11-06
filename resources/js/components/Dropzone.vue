@@ -15,12 +15,13 @@ export default {
   },
   data: function () {
     return {
-      dropzoneOptions: {
-          url: 'http://pulse-amazon.test/upload',
-          thumbnailWidth: 150,
-          maxFilesize: 0.5,
-      }
+        dropzoneOptions: {
+            url: 'http://pulse-amazon.test/upload',
+            thumbnailWidth: 150,
+            maxFilesize: 0.5,
+            headers: { 'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content }
+        }
     }
-  }
+  },
 }
 </script>
